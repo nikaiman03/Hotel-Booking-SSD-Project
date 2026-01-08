@@ -1,0 +1,175 @@
+/* =====================
+   GENERAL STYLES
+==================== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f6fa;
+    color: #333;
+}
+
+/* ADMIN DASHBOARD CONTAINER */
+.admin-dashboard {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 40px;
+    background: linear-gradient(145deg, #ffffff, #f8f9fb);
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+header h2 {
+    font-size: 2.5rem;
+    color: #1e3c72;
+}
+
+header .btn-profile {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #1e90ff, #1c3f95);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+header .btn-profile:hover {
+    background: linear-gradient(135deg, #1c3f95, #1e90ff);
+}
+
+/* FORM SECTION */
+.form-section h3 {
+    font-size: 1.5rem;
+    color: #1e3c72;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #1e90ff;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.form-section form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 40px;
+    background: #fefefe;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.form-section input,
+.form-section select,
+.form-section button {
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.form-section input,
+.form-section select {
+    flex: 1 1 30%;
+}
+
+.form-section input:focus,
+.form-section select:focus {
+    outline: none;
+    border-color: #1e90ff;
+    box-shadow: 0 0 10px rgba(30,144,255,0.2);
+}
+
+.form-section button {
+    background: linear-gradient(135deg, #1e90ff, #1c3f95);
+    color: white;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.form-section button:hover {
+    background: linear-gradient(135deg, #1c3f95, #1e90ff);
+}
+
+/* ERROR MESSAGE */
+.error {
+    width: 100%;
+    color: #d32f2f;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+/* TABLE SECTION */
+.table-section h3 {
+    font-size: 1.5rem;
+    color: #1e3c72;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #1e90ff;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.table-section table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.table-section table th,
+.table-section table td {
+    padding: 15px 20px;
+    text-align: left;
+}
+
+.table-section table th {
+    background: #1e3c72;
+    color: white;
+}
+
+.table-section table tr:nth-child(even) {
+    background: #f8f9fb;
+}
+
+.table-section table tr:hover {
+    background: #e1eaff;
+}
+
+.table-section table a {
+    color: #ff4d4f;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.table-section table a:hover {
+    color: #d32f2f;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .form-section form {
+        flex-direction: column;
+    }
+    .form-section input,
+    .form-section select {
+        flex: 1 1 100%;
+    }
+    header h2 {
+        font-size: 2rem;
+    }
+    .form-section h3,
+    .table-section h3 {
+        font-size: 1.3rem;
+    }
+}

@@ -1,0 +1,183 @@
+/* Shared Luxury Styles */
+:root {
+    --primary: #1e90ff;
+    --primary-dark: #1c3f95;
+    --success: #27ae60;
+    --error: #e74c3c;
+    --white: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    background: #000; overflow-x: hidden;
+}
+
+.background-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1500&q=80');
+    background-size: cover; background-position: center;
+    filter: blur(8px); z-index: -1; transform: scale(1.1);
+}
+
+.top-nav {
+    width: 100%; padding: 15px 5%; display: flex;
+    justify-content: space-between; align-items: center;
+    background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px);
+    position: fixed; top: 0; z-index: 100;
+}
+
+.nav-logo { color: white; font-size: 1.5rem; font-weight: 600; text-decoration: none; }
+
+.btn-nav { 
+    text-decoration: none; color: white; padding: 8px 18px; 
+    border-radius: 50px; font-size: 0.85rem; font-weight: 600; 
+    background: rgba(255,255,255,0.2); transition: 0.3s;
+}
+
+.btn-logout { background: var(--error); }
+
+.form-container {
+    background: rgba(255, 255, 255, 0.95);
+    width: 90%; max-width: 450px;
+    margin-top: 120px; padding: 40px;
+    border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-header h2 { font-size: 1.8rem; color: #333; text-align: center; }
+.form-header p { font-size: 0.9rem; color: #666; text-align: center; margin-bottom: 25px; }
+
+label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: #444; }
+
+input {
+    width: 100%; padding: 12px; margin-bottom: 20px;
+    border: 2px solid #eee; border-radius: 10px; font-size: 1rem;
+}
+
+input:focus { outline: none; border-color: var(--primary); }
+
+.btn-submit {
+    width: 100%; padding: 15px; background: var(--primary);
+    color: white; border: none; border-radius: 12px;
+    font-size: 1rem; font-weight: 600; cursor: pointer;
+}
+
+.success { background: #e8f5e9; color: var(--success); padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-size: 0.85rem; }
+.error { background: #fdeded; color: var(--error); padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-size: 0.85rem; }
+
+.form-footer { text-align: center; margin-top: 20px; }
+.form-footer a { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+
+/* --- Admin Dashboard Specific Styles --- */
+.admin-dashboard { 
+    width: 95%; 
+    max-width: 1100px; 
+    margin: 120px auto 40px; 
+}
+
+.dashboard-card { 
+    background: rgba(255, 255, 255, 0.95); 
+    border-radius: 20px; 
+    padding: 35px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+    margin-bottom: 30px; 
+}
+
+/* Form Layout Grid */
+.admin-form-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+    gap: 20px; 
+    margin-bottom: 20px;
+}
+
+/* Admin Form Labels */
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #1e3a8a;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Fix for the Add User Button */
+.btn-admin-submit {
+    background: linear-gradient(135deg, #1e90ff, #1c3f95);
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(30, 144, 255, 0.3);
+    display: inline-block;
+}
+
+.btn-admin-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 144, 255, 0.4);
+    filter: brightness(1.1);
+}
+
+/* Table Styling */
+.table-container { overflow-x: auto; }
+
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 10px; 
+    background: white; 
+    border-radius: 12px; 
+    overflow: hidden; 
+}
+
+th { 
+    background: #1e3a8a; 
+    color: white; 
+    padding: 18px; 
+    text-align: left; 
+    font-weight: 600; 
+}
+
+td { 
+    padding: 16px; 
+    border-bottom: 1px solid #eee; 
+    color: #333; 
+}
+
+tr:nth-child(even) { background: #f8fafc; }
+
+.btn-delete { 
+    color: #e74c3c; 
+    font-weight: 600; 
+    text-decoration: none; 
+    transition: 0.3s; 
+}
+
+.btn-delete:hover { 
+    color: #c0392b; 
+    text-decoration: underline; 
+}
+
+/* Role Badges */
+.role-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.role-admin { background: #dcfce7; color: #166534; }
+.role-user { background: #f1f5f9; color: #475569; }

@@ -1,0 +1,107 @@
+:root {
+    --primary: #1e90ff;
+    --primary-dark: #1c3f95;
+    --success: #27ae60;
+    --white: #ffffff;
+    --text: #333333;
+    --error: #e74c3c;
+}
+
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    overflow-x: hidden; position: relative; background: #000;
+}
+
+/* Background Overlay */
+.background-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1500&q=80');
+    background-size: cover; background-position: center;
+    filter: blur(5px); z-index: -1; transform: scale(1.1);
+}
+
+/* Navigation Bar */
+.top-nav {
+    width: 100%; padding: 20px 50px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px);
+    position: fixed; top: 0; z-index: 100;
+}
+
+.nav-logo { color: white; font-size: 1.5rem; font-weight: 600; text-decoration: none; }
+
+.btn-profile {
+    padding: 10px 20px; background: var(--primary); color: white;
+    text-decoration: none; border-radius: 50px; font-weight: 600;
+    font-size: 0.9rem; transition: 0.3s;
+}
+
+.btn-profile:hover { background: var(--primary-dark); transform: scale(1.05); }
+
+/* Booking Card */
+.booking-card {
+    background: rgba(255, 255, 255, 0.95);
+    width: 90%; max-width: 550px;
+    margin-top: 120px; padding: 40px;
+    border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.header { text-align: center; margin-bottom: 30px; }
+.header h2 { font-size: 2rem; color: var(--text); }
+.header p { font-size: 0.9rem; color: #666; }
+
+/* Form Elements */
+.input-group { margin-bottom: 20px; text-align: left; }
+.input-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+
+.input-group select, 
+.input-group input {
+    width: 100%; padding: 14px; border: 2px solid #eee;
+    border-radius: 10px; font-size: 1rem; transition: 0.3s;
+}
+
+.input-group select:focus, 
+.input-group input:focus {
+    outline: none; border-color: var(--primary); background: #fcfdff;
+}
+
+.date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.btn-book {
+    width: 100%; padding: 16px; background: var(--primary);
+    color: white; border: none; border-radius: 12px;
+    font-size: 1.1rem; font-weight: 600; cursor: pointer;
+    transition: 0.3s; margin-top: 10px;
+}
+
+.btn-book:hover {
+    background: var(--primary-dark); transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(30, 144, 255, 0.4);
+}
+
+/* Status Boxes */
+.error-box, .success-box {
+    padding: 12px; border-radius: 10px; font-size: 0.9rem;
+    text-align: center; margin-bottom: 25px; border: 1px solid;
+}
+.error-box { background: #fdeded; color: var(--error); border-color: rgba(231, 76, 60, 0.2); }
+.success-box { background: #e8f5e9; color: var(--success); border-color: rgba(39, 174, 96, 0.2); }
+
+/* Mobile View */
+@media (max-width: 600px) {
+    .date-row { grid-template-columns: 1fr; gap: 0; }
+    .top-nav { padding: 15px 20px; }
+}
