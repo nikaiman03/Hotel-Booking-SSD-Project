@@ -1,4 +1,8 @@
 <?php
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
 include('config.php');
 
@@ -16,7 +20,7 @@ if (empty($_SESSION['csrf_token'])) {
 $message = "";
 $message_type = "";
 
-// --- 3. FIXED DELETE LOGIC (From Your Code - Transaction Safe) ---
+// --- 3. FIXED DELETE LOGIC ---
 if (isset($_GET['delete_id'])) {
     $delete_id = intval($_GET['delete_id']);
     
@@ -26,7 +30,6 @@ if (isset($_GET['delete_id'])) {
     } else {
         $conn->begin_transaction();
         try {
-            // Delete bookings first to avoid foreign key error
             $stmt1 = $conn->prepare("DELETE FROM bookings WHERE user_id = ?");
             $stmt1->bind_param("i", $delete_id);
             $stmt1->execute();
@@ -46,39 +49,50 @@ if (isset($_GET['delete_id'])) {
     }
 }
 
-// --- 4. ADD USER LOGIC (Merged Security) ---
+// --- 4. ADD USER LOGIC (Simplified) ---
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_user'])) {
     if (empty($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         die("CSRF token validation failed.");
     }
 
-    $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $username = trim($_POST['username']);
+    $email = trim($_POST['email']);
     $password = $_POST['password'];
     $role = $_POST['role'];
 
-    // Password Validation (Teammate's criteria)
-    if (strlen($password) < 8 || !preg_match("/[0-9]/", $password)) {
-        $message = "Kata laluan mesti sekurang-kurangnya 8 aksara dan mengandungi nombor.";
+    // Basic validation
+    if (strlen($username) < 3 || strlen($username) > 50) {
+        $message = "Username must be 3-50 characters.";
         $message_type = "error";
-    } elseif (!in_array($role, ['admin', 'user'])) {
-        $message = "Peranan tidak sah.";
+    }
+    elseif (strlen($password) < 8) {
+        $message = "Password must be at least 8 characters.";
         $message_type = "error";
-    } else {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $username, $email, $hashed_password, $role);
+    }
+    else {
+        // Check if user exists
+        $check_sql = "SELECT id FROM users WHERE username = '$username' OR email = '$email'";
+        $check_result = $conn->query($check_sql);
         
-        if ($stmt->execute()) {
-            $message = "Pengguna baru berjaya didaftarkan!";
-            $message_type = "success";
-            
-            // Auditing (From Teammate's code)
-            $admin_name = $_SESSION['username'] ?? 'Admin';
-            error_log("Admin $admin_name added new user: $username with role $role.");
-        } else {
-            $message = "Ralat: " . $stmt->error;
+        if ($check_result && $check_result->num_rows > 0) {
+            $message = "Username or email already exists!";
             $message_type = "error";
+        } else {
+            // Hash password
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            
+            // Try to insert (simplest query)
+            $insert_sql = "INSERT INTO users (username, email, password, role) 
+                          VALUES ('$username', '$email', '$hashed_password', '$role')";
+            
+            if ($conn->query($insert_sql) === TRUE) {
+                $message = "User successfully added!";
+                $message_type = "success";
+                error_log("Admin added user: $username");
+            } else {
+                $message = "Error: " . $conn->error;
+                $message_type = "error";
+            }
         }
     }
 }
