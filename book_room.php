@@ -146,6 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a href="index.html" class="nav-logo">OUR<span>HOTEL</span></a>
     <div class="nav-links">
         <a href="user_profile.php" class="btn-nav">Akaun Saya</a>
+        <a href="my_booking.php" class="btn-nav">Tempahan Saya</a>
         <a href="logout.php" class="btn-nav" style="background:#e74c3c;">Log Keluar</a>
     </div>
 </nav>
