@@ -3,269 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OURHOTEL | Luxury Accommodation & Premium Service</title>
-    
-    <!-- Security: Add Content Security Policy meta tag -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com data:;">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-    
-    <!-- SEO and Accessibility -->
-    <meta name="description" content="Experience luxury accommodation with premium five-star service at OURHOTEL. Perfect for family vacations and business trips.">
-    <meta name="keywords" content="hotel, luxury accommodation, premium service, vacation, business trip, room booking">
-    <meta name="author" content="OURHOTEL">
-    <meta property="og:title" content="OURHOTEL - Luxury Accommodation">
-    <meta property="og:description" content="Experience premium five-star service at our luxury hotel.">
-    <meta property="og:type" content="website">
-    
-    <!-- Fonts -->
+    <title>OURHOTEL | Welcome to Our Hotel</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- Security: Add integrity hashes for CDN resources (example for production) -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" 
-          rel="stylesheet" 
-          integrity="sha384-YourIntegrityHashHere" 
-          crossorigin="anonymous"> -->
-    
     <link rel="stylesheet" href="indexcss.css">
-    
-    <!-- Security: Disable automatic form filling -->
-    <script>
-        // Disable autocomplete for security
-        document.addEventListener('DOMContentLoaded', function() {
-            const forms = document.getElementsByTagName('form');
-            for (let form of forms) {
-                form.setAttribute('autocomplete', 'off');
-            }
-        });
-    </script>
 </head>
 <body>
-    <!-- Navigation -->
+
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo" aria-label="OURHOTEL Homepage">OUR<span>HOTEL</span></a>
-            <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <a href="#" class="logo">OUR<span>HOTEL</span></a>
             <div class="nav-links">
-                <a href="#about">About Us</a>
-                <a href="#rooms">Rooms</a>
-                <a href="login.php" class="btn-nav">Login</a>
+                <a href="#about">Tentang</a>
+                <a href="#rooms">Bilik</a>
+                <a href="login.php" class="btn-nav">Log Masuk</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="hero" role="banner">
+    <header class="hero">
         <div class="hero-content">
-            <h1>Luxury & Unforgettable Experiences</h1>
-            <p>Enjoy your dream vacation with our award-winning five-star service.</p>
+            <h1>Keselesaan & Pengalaman Terbaik</h1>
+            <p>Nikmati percutian impian anda dengan perkhidmatan bertaraf lima bintang.</p>
             <div class="hero-btns">
-                <a href="register.php" class="btn-primary" aria-label="Register for an account">Register Now</a>
-                <a href="#rooms" class="btn-secondary" aria-label="View our room options">View Rooms</a>
+                <a href="register.php" class="btn-primary">Daftar Sekarang</a>
+                <a href="#rooms" class="btn-secondary">Lihat Bilik</a>
             </div>
         </div>
     </header>
 
-    <!-- About Section -->
-    <section id="about" class="container info-section" aria-labelledby="about-heading">
+    <section id="about" class="container info-section">
         <div class="section-title">
-            <h2 id="about-heading">About OURHOTEL</h2>
-            <div class="underline" role="presentation"></div>
+            <h2>Tentang Hotel Kami</h2>
+            <div class="underline"></div>
         </div>
         <p class="description">
-            Welcome to OURHOTEL! We offer comfortable accommodation, spacious rooms, 
-            modern facilities, and exceptional customer service. 
-            Perfect for family vacations or business trips.
+            Selamat datang ke hotel kami! Kami menawarkan penginapan yang selesa, 
+            bilik yang luas, kemudahan moden dan perkhidmatan mesra pelanggan. 
+            Sesuai untuk percutian keluarga atau urusan perniagaan.
         </p>
     </section>
 
-    <!-- Rooms Section -->
-    <section id="rooms" class="container rooms-section" aria-labelledby="rooms-heading">
+    <section id="rooms" class="container rooms-section">
         <div class="section-title">
-            <h2 id="rooms-heading">Premium Room Selection</h2>
-            <div class="underline" role="presentation"></div>
+            <h2>Pilihan Bilik Selesa</h2>
+            <div class="underline"></div>
         </div>
 
-        <div class="room-list" role="list">
-            <!-- Room 1: Standard -->
-            <div class="room-card" role="listitem">
-                <div class="room-img" 
-                     style="background-image: url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=500&q=60');"
-                     role="img" 
-                     aria-label="Standard room with queen bed">
-                </div>
+        <div class="room-list">
+            <div class="room-card">
+                <div class="room-img" style="background-image: url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=500&q=60');"></div>
                 <div class="room-info">
                     <h3>Standard Room</h3>
-                    <p>1 Queen Bed, Free WiFi, Air Conditioning</p>
+                    <p>1 Katil Queen, WiFi Percuma, AC</p>
                     <div class="price-tag">
-                        <span class="currency">RM</span><span class="amt">120</span><span class="unit">/night</span>
+                        <span class="currency">RM</span><span class="amt">120</span><span class="unit">/malam</span>
                     </div>
-                    <a href="login.php" class="btn-book" aria-label="Book Standard Room">Book Now</a>
+                    <a href="login.php" class="btn-book">Tempah Sekarang</a>
                 </div>
             </div>
 
-            <!-- Room 2: Deluxe -->
-            <div class="room-card" role="listitem">
-                <div class="room-img" 
-                     style="background-image: url('https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=500&q=60');"
-                     role="img" 
-                     aria-label="Deluxe room with city view">
-                </div>
+            <div class="room-card">
+                <div class="room-img" style="background-image: url('https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=500&q=60');"></div>
                 <div class="room-info">
                     <h3>Deluxe Room</h3>
-                    <p>City View, Smart TV, Minibar</p>
+                    <p>Pemandangan Bandar, TV Pintar, Minibar</p>
                     <div class="price-tag">
-                        <span class="currency">RM</span><span class="amt">180</span><span class="unit">/night</span>
+                        <span class="currency">RM</span><span class="amt">180</span><span class="unit">/malam</span>
                     </div>
-                    <a href="login.php" class="btn-book" aria-label="Book Deluxe Room">Book Now</a>
+                    <a href="login.php" class="btn-book">Tempah Sekarang</a>
                 </div>
             </div>
 
-            <!-- Room 3: Family -->
-            <div class="room-card" role="listitem">
-                <div class="room-img" 
-                     style="background-image: url('https://images.unsplash.com/photo-1591088398332-8a77d4972842?auto=format&fit=crop&w=500&q=60');"
-                     role="img" 
-                     aria-label="Family room with two queen beds">
-                </div>
+            <div class="room-card">
+                <div class="room-img" style="background-image: url('https://images.unsplash.com/photo-1591088398332-8a77d4972842?auto=format&fit=crop&w=500&q=60');"></div>
                 <div class="room-info">
                     <h3>Family Room</h3>
-                    <p>2 Queen Beds, Living Area, WiFi</p>
+                    <p>2 Katil Queen, Ruang Tamu, WiFi</p>
                     <div class="price-tag">
-                        <span class="currency">RM</span><span class="amt">250</span><span class="unit">/night</span>
+                        <span class="currency">RM</span><span class="amt">250</span><span class="unit">/malam</span>
                     </div>
-                    <a href="login.php" class="btn-book" aria-label="Book Family Room">Book Now</a>
+                    <a href="login.php" class="btn-book">Tempah Sekarang</a>
                 </div>
             </div>
 
-            <!-- Room 4: Suite -->
-            <div class="room-card" role="listitem">
-                <div class="room-img" 
-                     style="background-image: url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=500&q=60');"
-                     role="img" 
-                     aria-label="Suite room with bathtub">
-                </div>
+            <div class="room-card">
+                <div class="room-img" style="background-image: url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=500&q=60');"></div>
                 <div class="room-info">
                     <h3>Suite Room</h3>
-                    <p>Bathtub, Premium Service, Luxury Amenities</p>
+                    <p>Tab Mandi, Servis Premium, Mewah</p>
                     <div class="price-tag">
-                        <span class="currency">RM</span><span class="amt">350</span><span class="unit">/night</span>
+                        <span class="currency">RM</span><span class="amt">350</span><span class="unit">/malam</span>
                     </div>
-                    <a href="login.php" class="btn-book" aria-label="Book Suite Room">Book Now</a>
+                    <a href="login.php" class="btn-book">Tempah Sekarang</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer role="contentinfo">
+    <footer>
         <div class="footer-content">
-            <p>&copy; 2026 OURHOTEL | All Rights Reserved</p>
+            <p>&copy; 2026 Our Hotel | Semua Hak Cipta Terpelihara</p>
             <div class="socials">
-                <!-- Add social media links if needed -->
-            </div>
-            <div class="footer-links">
-                <a href="privacy.php" style="color: #ccc; text-decoration: none; margin: 0 10px;">Privacy Policy</a>
-                <a href="terms.php" style="color: #ccc; text-decoration: none; margin: 0 10px;">Terms of Service</a>
-                <a href="contact.php" style="color: #ccc; text-decoration: none; margin: 0 10px;">Contact Us</a>
-            </div>
+                </div>
         </div>
     </footer>
 
-    <!-- Security: Add a simple mobile menu script -->
-    <script>
-        // Mobile menu functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-            const navLinks = document.querySelector('.nav-links');
-            
-            if (mobileMenuBtn) {
-                mobileMenuBtn.addEventListener('click', function() {
-                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
-                    this.setAttribute('aria-expanded', !isExpanded);
-                    navLinks.classList.toggle('mobile-open');
-                });
-            }
-            
-            // Security: Prevent MIME-type sniffing
-            if (window.location.protocol === 'https:') {
-                // Force HTTPS for external resources
-                const images = document.querySelectorAll('img[src^="http://"]');
-                images.forEach(img => {
-                    img.src = img.src.replace('http://', 'https://');
-                });
-            }
-            
-            // Security: Add rel="noopener noreferrer" to external links (if any are added later)
-            const externalLinks = document.querySelectorAll('a[href^="http"]');
-            externalLinks.forEach(link => {
-                if (link.hostname !== window.location.hostname) {
-                    link.setAttribute('rel', 'noopener noreferrer');
-                    link.setAttribute('target', '_blank');
-                }
-            });
-        });
-        
-        // Security: Basic XSS prevention for any dynamic content
-        function sanitizeHTML(str) {
-            const temp = document.createElement('div');
-            temp.textContent = str;
-            return temp.innerHTML;
-        }
-    </script>
-    
-    <!-- Security: Add basic CSS for mobile menu -->
-    <style>
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            z-index: 1001;
-        }
-        
-        .mobile-menu-btn span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background: white;
-            margin: 5px 0;
-            transition: 0.3s;
-        }
-        
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 70px;
-                left: 0;
-                right: 0;
-                background: rgba(0, 0, 0, 0.9);
-                padding: 20px;
-                z-index: 1000;
-            }
-            
-            .nav-links.mobile-open {
-                display: flex;
-            }
-            
-            .nav-links a {
-                margin: 10px 0;
-                text-align: center;
-            }
-        }
-    </style>
 </body>
 </html>
