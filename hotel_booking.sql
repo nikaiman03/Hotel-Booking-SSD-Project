@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 08, 2026 at 03:22 PM
+-- Generation Time: Jan 08, 2026 at 04:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.4.14
 
@@ -46,7 +46,15 @@ INSERT INTO `audit_log` (`id`, `user_id`, `ACTION`, `details`, `ip_address`, `cr
 (3, 7, 'LOGIN_SUCCESS', 'User logged in from IP: ::1', '::1', '2026-01-08 10:46:31'),
 (4, 7, 'LOGIN_SUCCESS', 'User logged in from IP: ::1', '::1', '2026-01-08 11:34:11'),
 (5, 6, 'LOGIN_SUCCESS', 'User logged in from IP: ::1', '::1', '2026-01-08 11:34:44'),
-(6, 6, 'LOGOUT', 'User logged out from IP: ::1', '::1', '2026-01-08 11:34:53');
+(6, 6, 'LOGOUT', 'User logged out from IP: ::1', '::1', '2026-01-08 11:34:53'),
+(7, 6, 'LOGIN_SUCCESS', 'User logged in from IP: ::1', '::1', '2026-01-08 15:17:31'),
+(8, 6, 'LOGOUT', 'User logged out from IP: ::1', '::1', '2026-01-08 15:17:33'),
+(9, 7, 'LOGIN_SUCCESS', 'User logged in from IP: ::1', '::1', '2026-01-08 15:17:42'),
+(10, 7, 'LOGOUT', 'User logged out from IP: ::1', '::1', '2026-01-08 15:29:46'),
+(11, 7, 'LOGIN_SUCCESS', 'User logged in from IP: ::1', '::1', '2026-01-08 15:29:58'),
+(12, 7, 'LOGOUT', 'User logged out from IP: ::1', '::1', '2026-01-08 15:37:22'),
+(13, 14, 'LOGIN_SUCCESS', 'User logged in from IP: ::1', '::1', '2026-01-08 15:37:33'),
+(14, 14, 'LOGOUT', 'User logged out from IP: ::1', '::1', '2026-01-08 15:37:40');
 
 -- --------------------------------------------------------
 
@@ -136,9 +144,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `email`) VALUES
 (6, 'nik', '$2y$12$WQrSBXJ05s18v979ULEGnOrNrZm01v0tkgLbeBf2hs2gMvVK1sHfK', 'user', 'niknikky03@gmail.com'),
 (7, 'admin2', '$2y$12$yRGB/omAd9EI5gcpZSRQJOzpCBTUiHN4W5thWUrHSztcYZe0F0GoC', 'admin', 'admin@gmail.com'),
-(8, 'abcdef', '$2y$12$kyBgJrI.DyXJbcs4irNXxek2owt4HnF.6nNUplNaTL6.G0.plPRgq', 'user', 'abcd@gmail.com'),
-(9, 'abcdef', '$2y$12$eE5SsNxGftb7dAbuvJAT3eXmMv2Xx9pTHGoqx1jN0y9IfNnLoLj3y', 'user', 'abcd@gmail.com'),
-(10, 'admin', '$2y$12$j0TT4OnZ/5Z8cl11Wo9sZ.5wz6lske1K64LBzJOATaQmghiCVki.e', 'user', 'admin@gh.com');
+(12, 'try123456', '$2y$12$gBNqZAhIKpIuPfPytKU4IOT4xLJjn/kXV8hZis45qwvLmkB2YzGim', 'admin', 'trytest@gmail.com'),
+(14, 'jiranSebelah', '$2y$12$XnyYupHgAfbsAIGeL6e2a.X8x4Bq648u10767URi64j1f00nUKxdW', 'user', 'jiranpakabu@gs.com');
 
 --
 -- Indexes for dumped tables
@@ -184,7 +191,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `bookings`
@@ -208,7 +215,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
