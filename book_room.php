@@ -27,17 +27,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_SESSION['user_id'];
 
     if ($check_out_date <= $check_in_date) {
-        $message = "Tarikh daftar keluar mestilah selepas tarikh daftar masuk.";
+        $message = "Check-out date must be after the check-in date.";
         $message_type = "error-box";
     } else {
         $stmt = $conn->prepare("INSERT INTO bookings (user_id, room_id, check_in_date, check_out_date) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("iiss", $user_id, $room_id, $check_in_date, $check_out_date);
 
         if ($stmt->execute()) {
-            $message = "Bilik berjaya ditempah! Jumpa anda nanti.";
+            $message = "Room successfully booked! See you soon.";
             $message_type = "success-box";
         } else {
-            $message = "Ralat: " . $stmt->error;
+            $message = "Error: " . $stmt->error;
             $message_type = "error-box";
         }
     }
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tempah Bilik | OURHOTEL</title>
+    <title>Book a Room | OURHOTEL</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -85,7 +85,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             position: fixed; top: 0; left: 0; z-index: 100;
         }
 
-        /* Specific Brand Color Update */
         .nav-logo { color: white; font-size: 1.5rem; font-weight: 600; text-decoration: none; }
         .nav-logo span { color: var(--primary); }
         
@@ -145,16 +144,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <nav class="top-nav">
     <a href="index.html" class="nav-logo">OUR<span>HOTEL</span></a>
     <div class="nav-links">
-        <a href="user_profile.php" class="btn-nav">Akaun Saya</a>
-        <a href="logout.php" class="btn-nav" style="background:#e74c3c;">Log Keluar</a>
+        <a href="user_profile.php" class="btn-nav">My Account</a>
+        <a href="logout.php" class="btn-nav" style="background:#e74c3c;">Logout</a>
     </div>
 </nav>
 
 <div class="booking-container">
     <div class="booking-card">
         <div style="text-align: center; margin-bottom: 25px;">
-            <h2 style="font-size: 1.8rem; color: var(--text);">Tempah Bilik</h2>
-            <p>Rancang penginapan mewah anda</p>
+            <h2 style="font-size: 1.8rem; color: var(--text);">Book a Room</h2>
+            <p>Plan your luxury stay</p>
         </div>
 
         <?php if ($message): ?>
@@ -167,9 +166,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
             <div class="input-group">
-                <label for="room_id">Jenis Bilik</label>
+                <label for="room_id">Room Type</label>
                 <select id="room_id" name="room_id" required>
-                    <option value="" disabled selected>Pilih jenis bilik...</option>
+                    <option value="" disabled selected>Select room type...</option>
                     <?php
                     if ($rooms_result && $rooms_result->num_rows > 0) {
                         while ($row = $rooms_result->fetch_assoc()) {
@@ -181,48 +180,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="input-group">
-                <label for="check_in_date">Tarikh Daftar Masuk</label>
+                <label for="check_in_date">Check-in Date</label>
                 <input type="date" id="check_in_date" name="check_in_date" required min="<?php echo date('Y-m-d'); ?>">
             </div>
 
             <div class="input-group">
-                <label for="check_out_date">Tarikh Daftar Keluar</label>
+                <label for="check_out_date">Check-out Date</label>
                 <input type="date" id="check_out_date" name="check_out_date" required min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>">
             </div>
 
-            <button type="submit" class="btn-book">Tempah Sekarang</button>
+            <button type="submit" class="btn-book">Book Now</button>
         </form>
     </div>
 
     <div class="price-card">
-        <h3 style="margin-bottom: 20px; border-bottom: 2px solid var(--primary); display: inline-block;">Kadar Harga & Jenis Bilik</h3>
+        <h3 style="margin-bottom: 20px; border-bottom: 2px solid var(--primary); display: inline-block;">Rates & Room Types</h3>
         <div class="price-item">
             <div>
                 <h4>Standard</h4>
-                <p style="font-size: 0.8rem; opacity: 0.8;">Sesuai untuk 1-2 orang.</p>
+                <p style="font-size: 0.8rem; opacity: 0.8;">Ideal for 1-2 people.</p>
             </div>
-            <p class="price">RM 120.00 / malam</p>
+            <p class="price">RM 120.00 / night</p>
         </div>
         <div class="price-item">
             <div>
                 <h4>Deluxe</h4>
-                <p style="font-size: 0.8rem; opacity: 0.8;">Pemandangan bandar & Wi-Fi laju.</p>
+                <p style="font-size: 0.8rem; opacity: 0.8;">City view & fast Wi-Fi.</p>
             </div>
-            <p class="price">RM 180.00 / malam</p>
+            <p class="price">RM 180.00 / night</p>
         </div>
         <div class="price-item">
             <div>
                 <h4>Family</h4>
-                <p style="font-size: 0.8rem; opacity: 0.8;">Luas, untuk 4 orang tamu.</p>
+                <p style="font-size: 0.8rem; opacity: 0.8;">Spacious, for 4 guests.</p>
             </div>
-            <p class="price">RM 250.00 / malam</p>
+            <p class="price">RM 250.00 / night</p>
         </div>
         <div class="price-item">
             <div>
                 <h4>Suite</h4>
-                <p style="font-size: 0.8rem; opacity: 0.8;">Kemewahan maksima dengan Jakuzi.</p>
+                <p style="font-size: 0.8rem; opacity: 0.8;">Maximum luxury with Jacuzzi.</p>
             </div>
-            <p class="price">RM 350.00 / malam</p>
+            <p class="price">RM 350.00 / night</p>
         </div>
     </div>
 </div>

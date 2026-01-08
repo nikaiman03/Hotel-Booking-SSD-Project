@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $new_email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
 
     if (!filter_var($new_email, FILTER_VALIDATE_EMAIL)) {
-        $message = "Format emel tidak sah!";
+        $message = "Invalid email format!";
         $message_type = "error";
     } else {
         // Update both username and email
@@ -52,13 +52,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $update_stmt->bind_param("ssi", $new_username, $new_email, $user_id);
 
         if ($update_stmt->execute()) {
-            $message = "Profil berjaya dikemaskini!";
+            $message = "Profile successfully updated!";
             $message_type = "success";
             
             $user_data['username'] = $new_username;
             $user_data['email'] = $new_email;
         } else {
-            $message = "Ralat: Emel atau Nama Pengguna mungkin sudah digunakan.";
+            $message = "Error: Email or Username may already be in use.";
             $message_type = "error";
         }
     }
@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Saya | OURHOTEL</title>
+    <title>My Profile | OURHOTEL</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css"> 
     <style>
@@ -85,15 +85,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <nav class="top-nav">
     <a href="index.html" class="nav-logo">OUR<span>HOTEL</span></a>
     <div class="nav-links">
-        <a href="book_room.php" class="btn-nav">Tempah Bilik</a>
-        <a href="logout.php" class="btn-nav btn-logout">Log Keluar</a>
+        <a href="book_room.php" class="btn-nav">Book a Room</a>
+        <a href="logout.php" class="btn-nav btn-logout">Logout</a>
     </div>
 </nav>
 
 <div class="form-container">
     <div class="form-header">
-        <h2>Profil Pengguna</h2>
-        <p>Kemaskini maklumat akaun anda</p>
+        <h2>User Profile</h2>
+        <p>Update your account information</p>
     </div>
 
     <?php if ($message): ?>
@@ -104,22 +104,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
         <div class="input-group">
-            <label for="username">Nama Pengguna</label>
+            <label for="username">Username</label>
             <input type="text" id="username" name="username" 
                    value="<?php echo htmlspecialchars($user_data['username']); ?>" required>
         </div>
 
         <div class="input-group">
-            <label for="email">Alamat Emel</label>
+            <label for="email">Email Address</label>
             <input type="email" id="email" name="email" 
                    value="<?php echo htmlspecialchars($user_data['email']); ?>" required>
         </div>
 
-        <button type="submit" class="btn-submit">Simpan Perubahan</button>
+        <button type="submit" class="btn-submit">Save Changes</button>
     </form>
 
     <div class="form-footer">
-        <a href="book_room.php">← Kembali ke Tempahan</a>
+        <a href="book_room.php">← Back to Bookings</a>
     </div>
 </div>
 

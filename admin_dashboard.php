@@ -25,7 +25,7 @@ if (isset($_GET['delete_id'])) {
     $delete_id = intval($_GET['delete_id']);
     
     if ($delete_id == $_SESSION['user_id']) {
-        $message = "Anda tidak boleh memadam akaun anda sendiri!";
+        $message = "You cannot delete your own account!";
         $message_type = "error";
     } else {
         $conn->begin_transaction();
@@ -39,11 +39,11 @@ if (isset($_GET['delete_id'])) {
             $stmt2->execute();
 
             $conn->commit();
-            $message = "Pengguna dan rekod tempahan berjaya dipadam!";
+            $message = "User and booking records successfully deleted!";
             $message_type = "success";
         } catch (mysqli_sql_exception $exception) {
             $conn->rollback();
-            $message = "Ralat semasa memadam: " . $exception->getMessage();
+            $message = "Error during deletion: " . $exception->getMessage();
             $message_type = "error";
         }
     }
@@ -115,8 +115,8 @@ $users_result = $conn->query("SELECT id, username, email, role FROM users");
 <nav class="top-nav">
     <a href="index.html" class="nav-logo">Luxury Stay Admin</a>
     <div class="nav-links">
-        <a href="user_profile.php" class="btn-nav">Profil</a>
-        <a href="logout.php" class="btn-nav btn-logout">Log Keluar</a>
+        <a href="user_profile.php" class="btn-nav">Profile</a>
+        <a href="logout.php" class="btn-nav btn-logout">Logout</a>
     </div>
 </nav>
 
@@ -134,19 +134,19 @@ $users_result = $conn->query("SELECT id, username, email, role FROM users");
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <div class="admin-form-grid">
                 <div class="input-group">
-                    <label>Nama Pengguna</label>
+                    <label>Username</label>
                     <input type="text" name="username" placeholder="Username" required>
                 </div>
                 <div class="input-group">
-                    <label>Alamat Emel</label>
+                    <label>Email Address</label>
                     <input type="email" name="email" placeholder="Email Address" required>
                 </div>
                 <div class="input-group">
-                    <label>Kata Laluan</label>
+                    <label>Password</label>
                     <input type="password" name="password" placeholder="Password" required>
                 </div>
                 <div class="input-group">
-                    <label>Peranan (Role)</label>
+                    <label>Role</label>
                     <select name="role" style="width:100%; padding:12px; border-radius:10px; border:2px solid #eee; background: white;">
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
@@ -186,12 +186,12 @@ $users_result = $conn->query("SELECT id, username, email, role FROM users");
                             </td>
                             <td>
                                 <a href="?delete_id=<?php echo $user['id']; ?>" class="btn-delete" 
-                                   onclick="return confirm('AMARAN: Ini akan memadam semua tempahan pengguna ini juga. Teruskan?')">Delete</a>
+                                   onclick="return confirm('WARNING: This will delete all booking records for this user as well. Proceed?')">Delete</a>
                             </td>
                         </tr>
                         <?php endwhile; ?>
                     <?php else: ?>
-                        <tr><td colspan="5" style="text-align:center;">Tiada pengguna dijumpai.</td></tr>
+                        <tr><td colspan="5" style="text-align:center;">No users found.</td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>

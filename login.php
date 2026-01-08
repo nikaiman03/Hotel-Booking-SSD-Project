@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log Masuk | Luxury Stay</title>
+    <title>Login | Luxury Stay</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -138,8 +138,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="background-overlay"></div>
 <div class="form-container">
     <div class="form-header">
-        <h2>Selamat Datang</h2>
-        <p>Sila log masuk ke akaun anda</p>
+        <h2>Welcome Back</h2>
+        <p>Please log in to your account</p>
     </div>
 
     <?php if ($error): ?>
@@ -147,32 +147,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php endif; ?>
 
     <form method="POST" action="" autocomplete="off">
-        <!-- CSRF TOKEN FIELD (MANDATORY) -->
         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
         
         <div class="input-group">
-            <label for="username">Nama Pengguna</label>
+            <label for="username">Username</label>
             <input type="text" id="username" name="username" 
-                   placeholder="Huruf, nombor, underscore (3-50 aksara)" 
+                   placeholder="Letters, numbers, underscores (3-50 characters)" 
                    required 
                    pattern="[a-zA-Z0-9_]{3,50}"
-                   title="3-50 aksara: huruf, nombor, atau underscore"
+                   title="3-50 characters: letters, numbers, or underscores"
                    value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username'], ENT_QUOTES) : ''; ?>">
         </div>
         
         <div class="input-group">
-            <label for="password">Kata Laluan</label>
+            <label for="password">Password</label>
             <input type="password" id="password" name="password" 
-                   placeholder="Minimum 8 aksara" 
+                   placeholder="Minimum 8 characters" 
                    required
                    minlength="8">
         </div>
         
-        <button type="submit" class="btn-submit">Log Masuk</button>
+        <button type="submit" class="btn-submit">Login</button>
     </form>
     
     <div class="form-footer">
-        <p>Belum mempunyai akaun? <a href="register.php">Daftar Sekarang</a></p>
+        <p>Don't have an account? <a href="register.php">Register Now</a></p>
     </div>
 </div>
 </body>

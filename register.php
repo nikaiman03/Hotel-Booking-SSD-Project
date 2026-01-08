@@ -42,13 +42,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 3. Enhanced Validation Logic
     if (empty($username) || !preg_match('/^[a-zA-Z0-9_]{5,15}$/', $username)) {
-        $message = "Username mestilah 5-15 aksara (huruf, nombor, garis bawah).";
+        $message = "Username must be 5-15 characters (letters, numbers, underscores).";
         $message_type = "error-box";
     } elseif (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $message = "Format emel tidak sah.";
+        $message = "Invalid email format.";
         $message_type = "error-box";
     } elseif (strlen($password) < 8 || !preg_match("/[A-Za-z]/", $password) || !preg_match("/[0-9]/", $password)) {
-        $message = "Kata laluan mesti sekurang-kurangnya 8 aksara dengan huruf & nombor.";
+        $message = "Password must be at least 8 characters with letters & numbers.";
         $message_type = "error-box";
     } else {
         // 4. Check for existing username/email
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $check_result = $check_stmt->get_result();
 
         if ($check_result->num_rows > 0) {
-            $message = "Username atau Emel sudah digunakan.";
+            $message = "Username or Email is already in use.";
             $message_type = "error-box";
         } else {
             // 5. SECURITY: Hash the password with bcrypt
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: login.php");
                 exit;
             } else {
-                $message = "Ralat sistem. Sila cuba lagi.";
+                $message = "System error. Please try again.";
                 $message_type = "error-box";
             }
         }
@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Akaun | OURHOTEL</title>
+    <title>Register Account | OURHOTEL</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -102,9 +102,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="form-container"> 
     <div class="form-header">
-        <a href="index.html" style="text-decoration:none; color:#1e90ff; font-size:0.9rem;">← Laman Utama</a>
-        <h2 style="margin-top:10px;">Daftar Akaun</h2>
-        <p>Sertai kami untuk pengalaman terbaik</p>
+        <a href="index.html" style="text-decoration:none; color:#1e90ff; font-size:0.9rem;">← Home</a>
+        <h2 style="margin-top:10px;">Register Account</h2>
+        <p>Join us for the best experience</p>
     </div>
 
     <?php if ($message): ?>
@@ -118,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="input-group">
             <label>Username</label>
-            <input type="text" name="username" placeholder="5-15 aksara (huruf, nombor, _)" required 
+            <input type="text" name="username" placeholder="5-15 characters (letters, numbers, _)" required 
                    pattern="[a-zA-Z0-9_]{5,15}"
                    title="5-15 characters: letters, numbers, or underscore"
                    value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username'], ENT_QUOTES) : ''; ?>">
@@ -126,23 +126,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="input-group">
             <label>Email</label>
-            <input type="email" name="email" placeholder="contoh@mail.com" required
+            <input type="email" name="email" placeholder="example@mail.com" required
                    value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email'], ENT_QUOTES) : ''; ?>">
         </div>
 
         <div class="input-group">
             <label>Password</label>
-            <input type="password" name="password" placeholder="Min. 8 aksara (mesti ada huruf & nombor)" required 
+            <input type="password" name="password" placeholder="Min. 8 characters (must include letters & numbers)" required 
                    minlength="8"
                    pattern="^(?=.*[A-Za-z])(?=.*\d).{8,}$"
                    title="Minimum 8 characters with at least one letter and one number">
         </div>
 
-        <button type="submit" class="btn-submit">Daftar Sekarang</button>
+        <button type="submit" class="btn-submit">Register Now</button>
     </form>
 
     <div class="form-footer">
-        <p>Sudah mempunyai akaun? <a href="login.php">Log Masuk Di Sini</a></p>
+        <p>Already have an account? <a href="login.php">Login Here</a></p>
     </div>
 </div>
 
