@@ -13,6 +13,11 @@ if (function_exists('error_log')) {
     ];
     error_log("500 Error occurred: " . json_encode($error_details));
 }
+
+// Function to safely escape JavaScript output
+function js_escape($string) {
+    return json_encode($string, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -230,7 +235,7 @@ if (function_exists('error_log')) {
         </p>
         
         <div class="error-details">
-            <p><i class="fas fa-clock"></i> Time: <?php echo date('F j, Y, g:i a'); ?></p>
+            <p><i class="fas fa-clock"></i> Time: <?php echo htmlspecialchars(date('F j, Y, g:i a'), ENT_QUOTES, 'UTF-8'); ?></p>
             <p><i class="fas fa-ticket"></i> Error ID: ERR-<?php echo substr(md5(uniqid()), 0, 8); ?></p>
             <p><i class="fas fa-exclamation-circle"></i> Please try again in a few minutes</p>
         </div>
@@ -251,11 +256,11 @@ if (function_exists('error_log')) {
         
         <div class="technical-details" id="techDetails">
             <p><strong>Debug Information:</strong></p>
-            <p>• Server Time: <?php echo date('Y-m-d H:i:s'); ?></p>
-            <p>• Request URI: <?php echo htmlspecialchars($_SERVER['REQUEST_URI'] ?? 'N/A'); ?></p>
-            <p>• Request Method: <?php echo htmlspecialchars($_SERVER['REQUEST_METHOD'] ?? 'N/A'); ?></p>
+            <p>• Server Time: <?php echo htmlspecialchars(date('Y-m-d H:i:s'), ENT_QUOTES, 'UTF-8'); ?></p>
+            <p>• Request URI: <?php echo htmlspecialchars($_SERVER['REQUEST_URI'] ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?></p>
+            <p>• Request Method: <?php echo htmlspecialchars($_SERVER['REQUEST_METHOD'] ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?></p>
             <p>• HTTP Code: 500 Internal Server Error</p>
-            <p>• Error Logged: Yes (Reference: <?php echo date('Ymd-His'); ?>)</p>
+            <p>• Error Logged: Yes (Reference: <?php echo htmlspecialchars(date('Ymd-His'), ENT_QUOTES, 'UTF-8'); ?>)</p>
             <p><em>Note: These details are hidden from regular users for security.</em></p>
         </div>
         
@@ -281,8 +286,8 @@ if (function_exists('error_log')) {
         
         // Log the error to console for developers
         console.error('500 Internal Server Error');
-        console.error('Timestamp: <?php echo date("Y-m-d H:i:s"); ?>');
-        console.error('URL: <?php echo $_SERVER["REQUEST_URI"] ?? "Unknown"; ?>');
+        console.error('Timestamp: <?php echo js_escape(date("Y-m-d H:i:s")); ?>');
+        console.error('URL: <?php echo js_escape($_SERVER["REQUEST_URI"] ?? "Unknown"); ?>');
         
         // Try to reload the page after 30 seconds if user is still there
         setTimeout(() => {
