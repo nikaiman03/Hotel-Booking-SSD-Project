@@ -64,7 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // 5. SECURITY: Hash the password with bcrypt
             $hashed_password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
 
-            $stmt = $conn->prepare("INSERT INTO users (username, password, email, role, created_at) VALUES (?, ?, ?, ?, NOW())");
+            // FIXED: Removed 'created_at' from the INSERT statement
+            $stmt = $conn->prepare("INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)");
             $stmt->bind_param("ssss", $username, $hashed_password, $email, $role);
 
             if ($stmt->execute()) {
@@ -77,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // SUCCESS: Redirect to login page
                 $_SESSION['registration_success'] = "Registration successful! Please login.";
-                header("Location: login.php");
+                header("Location: login.php?registered=1");
                 exit;
             } else {
                 $message = "System error. Please try again.";

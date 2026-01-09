@@ -2,11 +2,11 @@
 // ==================== SECURE CONFIGURATION ====================
 // Define application environment
 define('APP_ENV', 'development'); // Change to 'production' for deployment
-define('APP_DEBUG', false); // MUST be false for assignment!
+define('APP_DEBUG', true); // MUST be false for assignment!
 
 // ==================== ERROR HANDLING ====================
 // Production mode: hide errors from users (OWASP requirement)
-if (!APP_DEBUG || APP_ENV === 'production') {
+if (false) {  // Force display errors temporarily
     error_reporting(0);
     ini_set('display_errors', 0);
     ini_set('log_errors', 1);
@@ -69,10 +69,10 @@ try {
 }
 
 // ==================== APPLICATION CONSTANTS ====================
-define('SITE_NAME', 'Luxury Stay Hotel');
+define('SITE_NAME', 'OURHOTEL Hotel');
 define('MAX_LOGIN_ATTEMPTS', 5);
-define('SESSION_TIMEOUT', 1800); // 30 minutes in seconds
-define('CSRF_TOKEN_LIFETIME', 3600); // 1 hour
+//define('SESSION_TIMEOUT', 1800); // 30 minutes in seconds
+//define('CSRF_TOKEN_LIFETIME', 3600); // 1 hour
 
 // ==================== SECURITY HEADERS ====================
 // Add these in your main PHP files or .htaccess
