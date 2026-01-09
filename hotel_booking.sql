@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2026 at 03:27 AM
+-- Generation Time: Jan 09, 2026 at 03:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.4.14
 
@@ -74,7 +74,18 @@ INSERT INTO `audit_log` (`id`, `user_id`, `ACTION`, `details`, `ip_address`, `us
 (30, 6, 'LOGIN_SUCCESS', 'User logged in from IP: ::1', '::1', NULL, '2026-01-09 02:08:51'),
 (31, 6, 'LOGOUT', 'User logged out from IP: ::1', '::1', NULL, '2026-01-09 02:20:15'),
 (32, 6, 'LOGIN_SUCCESS', 'User logged in from IP: ::1', '::1', NULL, '2026-01-09 02:22:28'),
-(33, 6, 'LOGOUT', 'User logged out from IP: ::1', '::1', NULL, '2026-01-09 02:24:11');
+(33, 6, 'LOGOUT', 'User logged out from IP: ::1', '::1', NULL, '2026-01-09 02:24:11'),
+(34, 17, 'REGISTRATION', 'New user registered from IP: ::1', '::1', NULL, '2026-01-09 02:33:13'),
+(35, 18, 'REGISTRATION', 'New user registered from IP: ::1', '::1', NULL, '2026-01-09 02:33:53'),
+(36, 18, 'LOGIN_SUCCESS', 'User logged in from IP: ::1', '::1', NULL, '2026-01-09 02:34:08'),
+(37, 18, 'BOOKING_CREATED', 'User booked room ID: 3 (Booking ID: 8)', '::1', NULL, '2026-01-09 02:34:40'),
+(38, 18, 'BOOKING_CREATED', 'User booked room ID: 4 (Booking ID: 9)', '::1', NULL, '2026-01-09 02:49:30'),
+(39, 18, 'BOOKING_CREATED', 'User booked room ID: 3 (Booking ID: 10)', '::1', NULL, '2026-01-09 02:49:46'),
+(40, 18, 'BOOKING_CREATED', 'User booked room ID: 6 (Booking ID: 11)', '::1', NULL, '2026-01-09 02:50:04'),
+(41, 18, 'BOOKING_CREATED', 'User booked room ID: 3 (Booking ID: 12)', '::1', NULL, '2026-01-09 02:51:17'),
+(42, 18, 'BOOKING_CREATED', 'User booked room ID: 4 (Booking ID: 13)', '::1', NULL, '2026-01-09 02:51:27'),
+(43, 18, 'BOOKING_CREATED', 'User booked room ID: 5 (Booking ID: 14)', '::1', NULL, '2026-01-09 02:51:36'),
+(44, 18, 'BOOKING_CREATED', 'User booked room ID: 6 (Booking ID: 15)', '::1', NULL, '2026-01-09 02:51:46');
 
 -- --------------------------------------------------------
 
@@ -95,8 +106,10 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`) VALUES
-(6, 6, 4, '2026-01-10', '2026-01-30'),
-(7, 6, 5, '2026-01-22', '2026-01-30');
+(12, 18, 3, '2026-01-09', '2026-01-11'),
+(13, 18, 4, '2026-02-01', '2026-02-04'),
+(14, 18, 5, '2026-01-09', '2026-01-11'),
+(15, 18, 6, '2026-01-09', '2026-01-11');
 
 -- --------------------------------------------------------
 
@@ -173,7 +186,8 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`, `email`) VALUES
 (12, 'try123456', '$2y$12$gBNqZAhIKpIuPfPytKU4IOT4xLJjn/kXV8hZis45qwvLmkB2YzGim', 'admin', 'trytest@gmail.com'),
 (14, 'jiranSebelah', '$2y$12$XnyYupHgAfbsAIGeL6e2a.X8x4Bq648u10767URi64j1f00nUKxdW', 'user', 'jiranpakabu@gs.com'),
 (15, 'hamzacafe', '$2y$12$6x2tcPULoVTuBxwGOAI1L.LUqwOV.mXJhAKLMw3MzkSGsyEKV0GKO', 'user', 'hamzacafe@gm.com'),
-(16, 'adminhamza', '$2y$12$97nvEQajK5iWVRpUfyM5DekPIh.rj3Qe3vetIEcdohiOEJrj07rRO', 'admin', 'adminhamza12@gm.com');
+(16, 'adminhamza', '$2y$12$97nvEQajK5iWVRpUfyM5DekPIh.rj3Qe3vetIEcdohiOEJrj07rRO', 'admin', 'adminhamza12@gm.com'),
+(18, 'aiman', '$2y$12$6DEcJeQEHxo9zp9.P8YnS.BwB03/LPo5xKavmrRmP6MWLh77lRwPa', 'user', 'aiman.marzuki03@s.unikl.edu.my');
 
 --
 -- Indexes for dumped tables
@@ -219,13 +233,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `failed_login_log`
@@ -243,7 +257,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints for dumped tables
