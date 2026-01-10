@@ -20,6 +20,8 @@ session_start();
 
 include('config.php');
 include('audit_log.php'); // Include logging functions
+setSecurityHeaders();
+
 
 $message = "";
 $message_type = ""; 

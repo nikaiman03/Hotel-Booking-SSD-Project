@@ -5,6 +5,7 @@ include('config.php');
 include('audit_log.php');
 include('session_security.php');
 startSecureSession();
+setSecurityHeaders();
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");

@@ -22,11 +22,13 @@ ini_set('session.use_only_cookies', 1);
 
 // Now start the session
 session_start();
+
 // ================================================================
 
 include('config.php');
-include('audit_log.php'); // Make sure you created this file
+include('audit_log.php'); // Required to include this file to trace the log
 $error = "";
+setSecurityHeaders();
 
 // Check for session timeout (30 minutes)
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {

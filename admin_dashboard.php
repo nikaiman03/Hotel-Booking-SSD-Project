@@ -8,6 +8,7 @@ include('config.php');           // 1. Database connection first
 include('audit_log.php');        // 2. Logging functions second
 include('session_security.php'); // 3. Session functions last
 startSecureSession();            // 4. Now start session
+setSecurityHeaders();
 
 // 1. Security Check: Only admins can access
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {

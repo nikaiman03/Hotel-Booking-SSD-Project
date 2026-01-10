@@ -3,6 +3,7 @@ include('config.php');           // 1. Database first
 include('audit_log.php');        // 2. Logging functions
 include('session_security.php'); // 3. Session functions
 startSecureSession();            // 4. Start session
+setSecurityHeaders();
 
 // 1. Security Check: Must be logged in
 if (!isset($_SESSION['user_id'])) {

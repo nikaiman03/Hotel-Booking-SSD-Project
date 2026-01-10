@@ -77,6 +77,12 @@ define('MAX_LOGIN_ATTEMPTS', 5);
 // ==================== SECURITY HEADERS ====================
 // Add these in your main PHP files or .htaccess
 function setSecurityHeaders() {
+    // Ensure headers are not already sent
+    if (headers_sent()) {
+        error_log("Security headers could not be set - headers already sent");
+        return;
+    }
+    
     header("X-Content-Type-Options: nosniff");
     header("X-Frame-Options: DENY");
     header("X-XSS-Protection: 1; mode=block");
@@ -85,5 +91,51 @@ function setSecurityHeaders() {
     // Content Security Policy (Recommended for assignment)
     // header("Content-Security-Policy: default-src 'self'; script-src 'self' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;");
 }
-// Call this function in sensitive pages
+
+// ==================== AUTO-SET SECURITY HEADERS ====================
+// Call security headers automatically when config is included
+if (!headers_sent()) {
+    setSecurityHeaders();
+}
+
+// ==================== SESSION SECURITY ====================
+// Set secure session cookie parameters (if session is started here)
+function setSecureSessionParams() {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_set_cookie_params([
+            'lifetime' => 0,
+            'path' => '/',
+            'domain' => $_SERVER['HTTP_HOST'] ?? 'localhost',
+            'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on',
+            'httponly' => true,
+            'samesite' => 'Strict'
+        ]);
+    }
+}
+
+// ==================== ADDITIONAL SECURITY MEASURES ====================
+// Disable exposure of PHP version
+header_remove('X-Powered-By');
+
+// Prevent MIME type sniffing
+header('X-Content-Type-Options: nosniff');
+
+// Prevent Clickjacking - Already set in setSecurityHeaders()
+// header('X-Frame-Options: DENY');
+
+// Enable XSS protection (for older browsers)
+// Already set in setSecurityHeaders()
+// header('X-XSS-Protection: 1; mode=block');
+
+// Set referrer policy
+// Already set in setSecurityHeaders()
+// header('Referrer-Policy: strict-origin-when-cross-origin');
+
+// HSTS (HTTP Strict Transport Security) - Only enable if using HTTPS
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+    header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
+}
+
+// Feature Policy (deprecated, but still useful for older browsers)
+header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
 ?>
