@@ -25,8 +25,10 @@ session_start();
 
 // ================================================================
 
-include('config.php');
-include('audit_log.php'); // Required to include this file to trace the log
+// Load Composer autoloader
+require_once __DIR__ . '/vendor/autoload.php';
+
+ // Required to include this file to trace the log
 $error = "";
 setSecurityHeaders();
 

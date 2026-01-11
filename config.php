@@ -48,25 +48,28 @@ define('DB_PASSWORD', '');
 define('DB_NAME', 'hotel_booking');
 
 try {
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    $GLOBALS['conn'] = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     
-    if ($conn->connect_error) {
-        error_log("Database connection failed: " . $conn->connect_error);
+    if ($GLOBALS['conn']->connect_error) {
+        error_log("Database connection failed: " . $GLOBALS['conn']->connect_error);
         
         if (APP_ENV === 'production' || !APP_DEBUG) {
             die("Database connection error. Please try again later.");
         } else {
-            die("Database connection failed: " . htmlspecialchars($conn->connect_error));
+            die("Database connection failed: " . htmlspecialchars($GLOBALS['conn']->connect_error));
         }
     }
     
     // Set UTF-8 charset to prevent encoding issues
-    $conn->set_charset("utf8mb4");
+    $GLOBALS['conn']->set_charset("utf8mb4");
     
 } catch (Exception $e) {
     error_log("Database exception: " . $e->getMessage());
     die("System temporarily unavailable. Please try again later.");
 }
+
+// Make $conn available globally
+$conn = $GLOBALS['conn'];
 
 // ==================== APPLICATION CONSTANTS ====================
 define('SITE_NAME', 'OURHOTEL Hotel');

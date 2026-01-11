@@ -1,9 +1,8 @@
 <?php
 session_start();
 
-// Include config for logging functions
-include('config.php');
-include('audit_log.php');
+// Load Composer autoloader
+require_once __DIR__ . '/vendor/autoload.php';
 
 // Log the logout activity
 if (isset($_SESSION['user_id']) && function_exists('logActivity')) {

@@ -1,9 +1,8 @@
 <?php
 // ==================== SECURE MY BOOKINGS PAGE ====================
 
-include('config.php');
-include('audit_log.php');
-include('session_security.php');
+// Load Composer autoloader
+require_once __DIR__ . '/vendor/autoload.php';
 startSecureSession();
 setSecurityHeaders();
 

@@ -1,7 +1,6 @@
 <?php
-include('config.php');           // 1. Database first
-include('audit_log.php');        // 2. Logging functions
-include('session_security.php'); // 3. Session functions
+// Load Composer autoloader
+require_once __DIR__ . '/vendor/autoload.php';
 startSecureSession();            // 4. Start session
 setSecurityHeaders();
 

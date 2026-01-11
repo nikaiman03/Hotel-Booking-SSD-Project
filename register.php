@@ -18,8 +18,8 @@ ini_set('session.use_only_cookies', 1);
 session_start();
 // ================================================================
 
-include('config.php');
-include('audit_log.php'); // Include logging functions
+// Load Composer autoloader
+require_once __DIR__ . '/vendor/autoload.php';
 setSecurityHeaders();
 
 

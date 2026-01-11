@@ -2,9 +2,8 @@
 // ==================== SECURE BOOKING PAGE ====================
 
 // IMPORTANT: Load dependencies in correct order
-include('config.php');           // 1. Database connection first
-include('audit_log.php');        // 2. Logging functions second
-include('session_security.php'); // 3. Session functions last
+// Load Composer autoloader
+require_once __DIR__ . '/vendor/autoload.php';
 startSecureSession();            // 4. Now start session
 setSecurityHeaders();
 
