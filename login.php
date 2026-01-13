@@ -30,7 +30,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 
  // Required to include this file to trace the log
 $error = "";
-setSecurityHeaders();
 
 // Check for session timeout (30 minutes)
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {

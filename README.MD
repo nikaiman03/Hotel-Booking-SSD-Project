@@ -367,7 +367,7 @@ This project is for educational purposes only.
 ## 📞 Support
 
 For issues or questions:
-- **Email:** [aiman.kaswadi@student.unikl.edu.my]
+- **Email:** [your-email@student.unikl.edu.my]
 - **GitHub Issues:** [repository-url]/issues
 - **Lecturer:** Mardiana Mahari
 
@@ -406,5 +406,4 @@ For issues or questions:
 
 **Last Updated:** January 2026  
 **Version:** 1.0.0  
-
 **Status:** ✅ Completed & Ready for Submission

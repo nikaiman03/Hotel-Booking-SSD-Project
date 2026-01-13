@@ -7,7 +7,6 @@ ini_set('display_errors', 1);
 // Load Composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 startSecureSession();            // 4. Now start session
-setSecurityHeaders();
 
 // 1. Security Check: Only admins can access
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {

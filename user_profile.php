@@ -2,7 +2,6 @@
 // Load Composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 startSecureSession();            // 4. Start session
-setSecurityHeaders();
 
 // 1. Security Check: Must be logged in
 if (!isset($_SESSION['user_id'])) {

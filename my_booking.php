@@ -4,7 +4,6 @@
 // Load Composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 startSecureSession();
-setSecurityHeaders();
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
