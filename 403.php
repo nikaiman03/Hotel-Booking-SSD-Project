@@ -217,10 +217,10 @@ if (function_exists('error_log')) {
         </div>
         
         <div class="btn-group">
-            <a href="index.html" class="btn btn-primary">
+            <a href="/hotelb/index.html" class="btn btn-primary">
                 <i class="fas fa-home"></i> Home Page
             </a>
-            <a href="login.php" class="btn btn-secondary">
+            <a href="/hotelb/login.php" class="btn btn-secondary">
                 <i class="fas fa-sign-in-alt"></i> Login
             </a>
         </div>

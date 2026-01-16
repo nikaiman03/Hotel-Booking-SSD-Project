@@ -241,7 +241,7 @@ function js_escape($string) {
         </div>
         
         <div class="btn-group">
-            <a href="index.html" class="btn btn-primary">
+            <a href="/hotelb/index.html" class="btn btn-primary">
                 <i class="fas fa-home btn-icon"></i> Go to Homepage
             </a>
             <a href="javascript:history.back()" class="btn btn-secondary">
