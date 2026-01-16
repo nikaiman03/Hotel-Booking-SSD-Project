@@ -61,8 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $message = "Username or Email is already in use.";
             $message_type = "error-box";
         } else {
-            // 5. SECURITY: Hash the password with bcrypt
-            $hashed_password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
+            // 5. SECURITY: Hash the password with secure algorithm (ARGON2ID)
+            $hashed_password = secure_password_hash($password);
 
             // FIXED: Removed 'created_at' from the INSERT statement
             $stmt = $conn->prepare("INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)");

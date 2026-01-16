@@ -236,7 +236,7 @@ function js_escape($string) {
         
         <div class="error-details">
             <p><i class="fas fa-clock"></i> Time: <?php echo htmlspecialchars(date('F j, Y, g:i a'), ENT_QUOTES, 'UTF-8'); ?></p>
-            <p><i class="fas fa-ticket"></i> Error ID: ERR-<?php echo substr(md5(uniqid()), 0, 8); ?></p>
+            <p><i class="fas fa-ticket"></i> Error ID: ERR-<?php echo bin2hex(random_bytes(4)); ?></p>
             <p><i class="fas fa-exclamation-circle"></i> Please try again in a few minutes</p>
         </div>
         

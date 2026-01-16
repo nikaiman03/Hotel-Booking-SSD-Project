@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = $stmt->get_result();
 
         if ($user = $result->fetch_assoc()) {
-            if (password_verify($password, $user['password'])) {
+            if (verify_password_hash($password, $user['password'])) {
                 // SUCCESS: Regenerate session ID to prevent fixation
                 session_regenerate_id(true);
 

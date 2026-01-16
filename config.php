@@ -100,4 +100,35 @@ if (!headers_sent()) {
 
 // Note: Security headers are now handled by .htaccess
 // This prevents duplicate headers and ensures they're always sent
+
+// ==================== PASSWORD HASHING ====================
+/**
+ * Secure password hashing using the strongest available algorithm
+ * Uses ARGON2ID (PHP 7.3+), falls back to BCRYPT for compatibility
+ */
+function secure_password_hash($password) {
+    // Use ARGON2ID (available in PHP 7.3+)
+    if (defined('PASSWORD_ARGON2ID')) {
+        $options = [
+            'memory_cost' => 65536,  // 64 MB - good balance between security and performance
+            'time_cost'   => 4,      // 4 iterations - enough to slow down attacks
+            'threads'     => 3       // 3 parallel threads
+        ];
+        return password_hash($password, PASSWORD_ARGON2ID, $options);
+    }
+    // Fallback to BCRYPT if ARGON2ID not available
+    else {
+        return password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
+    }
+}
+
+/**
+ * Verify password against hash (works with all algorithms)
+ * This is just an alias for password_verify() for consistency
+ */
+function verify_password_hash($password, $hash) {
+    return password_verify($password, $hash);
+}
+?>
+
 ?>

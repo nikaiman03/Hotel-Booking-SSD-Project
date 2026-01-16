@@ -233,7 +233,7 @@ if (function_exists('error_log')) {
         <div class="contact-info">
             Is this an error? <a href="mailto:admin@ourhotel.com">Contact Administrator</a>
             <br>
-            <small>Reference ID: 403-<?php echo substr(md5(uniqid()), 0, 8); ?></small>
+            <small>Reference ID: 403-<?php echo bin2hex(random_bytes(4)); ?></small>
         </div>
     </div>
     
