@@ -137,16 +137,18 @@ $users_result = $conn->query("SELECT id, username, email, role FROM users ORDER 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | Luxury Stay</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <div class="background-overlay"></div>
 
+<!-- Update the navigation section in admin_dashboard.php -->
 <nav class="top-nav">
     <a href="index.html" class="nav-logo">Luxury Stay Admin</a>
     <div class="nav-links">
+        <a href="audit_log_view.php" class="btn-nav" style="background: #27ae60;">View Audit Log</a>
         <a href="user_profile.php" class="btn-nav">Profile</a>
         <a href="logout.php" class="btn-nav btn-logout">Logout</a>
     </div>

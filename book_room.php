@@ -2,9 +2,8 @@
 // ==================== SECURE BOOKING PAGE ====================
 
 // IMPORTANT: Load dependencies in correct order
-// Load Composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
-startSecureSession();            // 4. Now start session
+startSecureSession();
 
 // 1. Security Check: Must be logged in
 if (!isset($_SESSION['user_id'])) {
@@ -12,16 +11,16 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// 2. Generate CSRF Token (already done in startSecureSession, but ensure it exists)
+// 2. Generate CSRF Token
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-// 3. Fetch rooms for the dropdown using prepared statement
-$sql_rooms = "SELECT id, room_type FROM rooms ORDER BY id ASC";
+// 3. Fetch rooms for the dropdown
+$sql_rooms = "SELECT id, room_type, room_number FROM rooms ORDER BY id ASC";
 $rooms_result = $conn->query($sql_rooms);
 
-// 4. Fetch all booked dates for all rooms to pre-load JavaScript
+// 4. Fetch all booked dates for all rooms
 $booked_dates = [];
 $booked_query = "SELECT room_id, check_in_date, check_out_date FROM bookings";
 $booked_result = $conn->query($booked_query);
@@ -81,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $message = "Invalid room selected.";
             $message_type = "error-box";
         } else {
-            // Check for existing bookings (prevent double booking)
+            // Check for existing bookings
             $check_booking = $conn->prepare("SELECT id FROM bookings WHERE room_id = ? 
                                              AND ((check_in_date <= ? AND check_out_date >= ?) 
                                              OR (check_in_date <= ? AND check_out_date >= ?))");
@@ -93,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $message = "This room is already booked for the selected dates. Please choose different dates.";
                 $message_type = "error-box";
             } else {
-                // Insert booking with prepared statement
+                // Insert booking
                 $stmt = $conn->prepare("INSERT INTO bookings (user_id, room_id, check_in_date, check_out_date) VALUES (?, ?, ?, ?)");
                 $stmt->bind_param("iiss", $user_id, $room_id, $check_in_date, $check_out_date);
 
@@ -103,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Log the booking
                     logActivity($user_id, "BOOKING_CREATED", "User booked room ID: $room_id (Booking ID: $booking_id)");
                     
-                    // Redirect to my_booking.php after successful booking
+                    // Redirect to my_booking.php
                     header("Location: my_booking.php");
                     exit;
 
@@ -124,12 +123,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Room | OURHOTEL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="bookcss.css">
     
-    <!-- Date Range Picker CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Removed Flatpickr CSS & JS -->
+    <style>
+        /* Custom Date Input Styling */
+        .date-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .date-input-wrapper input[type="date"] {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .date-input-wrapper input[type="date"]:focus {
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.15);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(45, 156, 219, 0.3);
+        }
+        
+        .date-input-wrapper::after {
+            content: "📅";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+        
+        /* Style for date input in WebKit browsers */
+        .date-input-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: 1;
+        }
+        
+        /* Style for Firefox */
+        .date-input-wrapper input[type="date"]::-moz-calendar-picker-indicator {
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
 </head>
 <body>
 
@@ -163,10 +223,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="POST" autocomplete="off" id="bookingForm">
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
 
-            <!-- In book_room.php, change this part of the form: -->
+            <!-- Room Selection -->
             <div class="input-group">
                 <label for="room_id">Room Type</label>
-                <<select id="room_id" name="room_id" required onchange="updateBookedDates()">
+                <select id="room_id" name="room_id" required onchange="resetDates()">
                     <option value="" disabled selected>Select room type...</option>
                     <?php
                     if ($rooms_result && $rooms_result->num_rows > 0) {
@@ -181,22 +241,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </select>
             </div>
 
+            <!-- Check-in Date -->
             <div class="input-group">
                 <label for="check_in_date">Check-in Date</label>
-                <input type="text" id="check_in_date" name="check_in_date" required 
-                       placeholder="Select check-in date" readonly>
+                <div class="date-input-wrapper">
+                    <input type="date" id="check_in_date" name="check_in_date" required 
+                           min="<?php echo date('Y-m-d'); ?>"
+                           onchange="updateCheckOutMinDate()">
+                </div>
             </div>
 
+            <!-- Check-out Date -->
             <div class="input-group">
                 <label for="check_out_date">Check-out Date</label>
-                <input type="text" id="check_out_date" name="check_out_date" required 
-                       placeholder="Select check-out date" readonly>
+                <div class="date-input-wrapper">
+                    <input type="date" id="check_out_date" name="check_out_date" required 
+                           min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>"
+                           onchange="validateDates()">
+                </div>
             </div>
 
             <div style="margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px; font-size: 0.9rem;">
                 <strong>Booking Period:</strong> 
                 <span id="bookingPeriod">Not selected</span>
             </div>
+            
+            <!-- Room Availability Status -->
+            <div id="roomAvailability" style="display: none; margin-bottom: 15px; padding: 10px; border-radius: 5px;"></div>
 
             <button type="submit" class="btn-book">Book Now</button>
         </form>
@@ -249,52 +320,123 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Booked dates from PHP database
 const bookedDates = <?php echo json_encode($booked_dates); ?>;
 
-// Initialize date pickers
-let checkInPicker, checkOutPicker;
+// Format date to YYYY-MM-DD
+function formatDate(date) {
+    return date.toISOString().split('T')[0];
+}
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize date pickers
-    checkInPicker = flatpickr("#check_in_date", {
-        minDate: "today",
-        dateFormat: "Y-m-d",
-        onChange: function(selectedDates, dateStr) {
-            if (selectedDates.length > 0) {
-                // Update check-out min date to day after check-in
-                checkOutPicker.set('minDate', new Date(selectedDates[0].getTime() + 86400000));
-                updateBookingPeriod();
-                validateBooking();
-            }
-        }
-    });
+// Calculate tomorrow's date
+function getTomorrow() {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+}
+
+// RESET DATES WHEN ROOM CHANGES
+function resetDates() {
+    const checkInInput = document.getElementById('check_in_date');
+    const checkOutInput = document.getElementById('check_out_date');
+    const bookingPeriod = document.getElementById('bookingPeriod');
     
-    checkOutPicker = flatpickr("#check_out_date", {
-        minDate: new Date().fp_incr(1), // Tomorrow
-        dateFormat: "Y-m-d",
-        onChange: function() {
-            updateBookingPeriod();
-            validateBooking();
-        }
-    });
+    // Reset date inputs
+    checkInInput.value = '';
+    checkOutInput.value = '';
     
-    // Update booking period display
-    function updateBookingPeriod() {
-        const checkIn = document.getElementById('check_in_date').value;
-        const checkOut = document.getElementById('check_out_date').value;
+    // Reset min dates
+    const today = new Date();
+    checkInInput.min = formatDate(today);
+    checkOutInput.min = formatDate(getTomorrow());
+    
+    // Reset booking period display
+    bookingPeriod.textContent = 'Not selected';
+    
+    // Reset border colors
+    checkInInput.style.borderColor = '';
+    checkOutInput.style.borderColor = '';
+    
+    // Update booked dates list for the new room
+    updateBookedDates();
+}
+
+// Update check-out min date based on check-in
+function updateCheckOutMinDate() {
+    const checkInInput = document.getElementById('check_in_date');
+    const checkOutInput = document.getElementById('check_out_date');
+    
+    if (checkInInput.value) {
+        const checkInDate = new Date(checkInInput.value);
+        const nextDay = new Date(checkInDate);
+        nextDay.setDate(nextDay.getDate() + 1);
         
-        if (checkIn && checkOut) {
-            const start = new Date(checkIn);
-            const end = new Date(checkOut);
-            const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+        // Set min date for check-out to next day after check-in
+        checkOutInput.min = formatDate(nextDay);
+        
+        // If current check-out is before the new min, reset it
+        if (checkOutInput.value && new Date(checkOutInput.value) <= nextDay) {
+            checkOutInput.value = formatDate(nextDay);
+        }
+        
+        updateBookingPeriod();
+    }
+}
+
+// Validate dates don't overlap with booked dates
+function validateDates() {
+    const roomId = document.getElementById('room_id').value;
+    const checkIn = document.getElementById('check_in_date').value;
+    const checkOut = document.getElementById('check_out_date').value;
+    
+    if (!roomId || !checkIn || !checkOut) {
+        return true;
+    }
+    
+    const datesForRoom = bookedDates[roomId] || [];
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+    
+    // Check if selected dates conflict with booked dates
+    for (const range of datesForRoom) {
+        const bookedStart = new Date(range.start);
+        const bookedEnd = new Date(range.end);
+        
+        // Check for overlap
+        if ((checkInDate <= bookedEnd && checkOutDate >= bookedStart) ||
+            (checkInDate >= bookedStart && checkInDate <= bookedEnd) ||
+            (checkOutDate >= bookedStart && checkOutDate <= bookedEnd)) {
             
-            document.getElementById('bookingPeriod').innerHTML = 
-                `${checkIn} to ${checkOut} (${nights} night${nights > 1 ? 's' : ''})`;
+            alert(`⚠️ Warning: The room is booked from ${range.start} to ${range.end}. Please select different dates.`);
+            
+            // Highlight the inputs in red
+            document.getElementById('check_in_date').style.borderColor = '#e74c3c';
+            document.getElementById('check_out_date').style.borderColor = '#e74c3c';
+            
+            return false;
         }
     }
     
-    // Add room change event listener
-    document.getElementById('room_id').addEventListener('change', updateBookedDates);
-});
+    // Reset border color if valid
+    document.getElementById('check_in_date').style.borderColor = '';
+    document.getElementById('check_out_date').style.borderColor = '';
+    return true;
+}
 
+// Update booking period display
+function updateBookingPeriod() {
+    const checkIn = document.getElementById('check_in_date').value;
+    const checkOut = document.getElementById('check_out_date').value;
+    
+    if (checkIn && checkOut) {
+        const start = new Date(checkIn);
+        const end = new Date(checkOut);
+        const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+        
+        document.getElementById('bookingPeriod').innerHTML = 
+            `${checkIn} to ${checkOut} (${nights} night${nights > 1 ? 's' : ''})`;
+    }
+}
+
+// Update booked dates list when room changes
 function updateBookedDates() {
     const roomSelect = document.getElementById('room_id');
     const roomId = roomSelect.value;
@@ -313,11 +455,15 @@ function updateBookedDates() {
     // Update availability message
     if (datesForRoom.length === 0) {
         availabilityDiv.innerHTML = '✅ All dates are available for booking';
+        availabilityDiv.style.backgroundColor = 'rgba(39, 174, 96, 0.1)';
         availabilityDiv.style.color = '#27ae60';
+        availabilityDiv.style.border = '1px solid #27ae60';
     } else {
         const bookedCount = datesForRoom.length;
         availabilityDiv.innerHTML = `⚠️ ${bookedCount} booking${bookedCount > 1 ? 's' : ''} exist for this room`;
+        availabilityDiv.style.backgroundColor = 'rgba(231, 76, 60, 0.1)';
         availabilityDiv.style.color = '#e74c3c';
+        availabilityDiv.style.border = '1px solid #e74c3c';
     }
     availabilityDiv.style.display = 'block';
     
@@ -337,65 +483,36 @@ function updateBookedDates() {
         html += '</ul>';
         bookedDatesDiv.innerHTML = html;
     }
-    
-    // Update date picker disabled dates
-    updateDatePickerDisabledDates(roomId);
 }
 
-function updateDatePickerDisabledDates(roomId) {
-    const datesForRoom = bookedDates[roomId] || [];
+// Initialize date inputs
+document.addEventListener('DOMContentLoaded', function() {
+    // Set today as min date for check-in
+    const today = new Date();
+    document.getElementById('check_in_date').min = formatDate(today);
     
-    // Convert booked dates to flatpickr disabled date ranges
-    const disabledDates = datesForRoom.map(range => {
-        return {
-            from: range.start,
-            to: range.end
-        };
+    // Set tomorrow as min date for check-out
+    const tomorrow = getTomorrow();
+    document.getElementById('check_out_date').min = formatDate(tomorrow);
+    
+    // Update period display when dates change
+    document.getElementById('check_in_date').addEventListener('change', function() {
+        updateBookingPeriod();
+        validateDates();
     });
     
-    // Update both date pickers
-    checkInPicker.set('disable', disabledDates);
-    checkOutPicker.set('disable', disabledDates);
-}
-
-function validateBooking() {
-    const roomId = document.getElementById('room_id').value;
-    const checkIn = document.getElementById('check_in_date').value;
-    const checkOut = document.getElementById('check_out_date').value;
+    document.getElementById('check_out_date').addEventListener('change', function() {
+        updateBookingPeriod();
+        validateDates();
+    });
     
-    if (!roomId || !checkIn || !checkOut) return;
-    
-    const datesForRoom = bookedDates[roomId] || [];
-    
-    // Check if selected dates conflict with booked dates
-    const checkInDate = new Date(checkIn);
-    const checkOutDate = new Date(checkOut);
-    
-    for (const range of datesForRoom) {
-        const bookedStart = new Date(range.start);
-        const bookedEnd = new Date(range.end);
-        
-        // Check for overlap
-        if ((checkInDate <= bookedEnd && checkOutDate >= bookedStart) ||
-            (checkInDate >= bookedStart && checkInDate <= bookedEnd) ||
-            (checkOutDate >= bookedStart && checkOutDate <= bookedEnd)) {
-            
-            alert(`⚠️ Warning: The room is booked from ${range.start} to ${range.end}. Please select different dates.`);
-            return false;
-        }
-    }
-    
-    return true;
-}
+    // Add room change event listener - changed to resetDates
+    document.getElementById('room_id').addEventListener('change', resetDates);
+});
 
 // Form submission validation
 document.getElementById('bookingForm').addEventListener('submit', function(e) {
-    if (!validateBooking()) {
-        e.preventDefault();
-        return false;
-    }
-    
-    // Check if dates are selected
+    // First validate date selection
     const checkIn = document.getElementById('check_in_date').value;
     const checkOut = document.getElementById('check_out_date').value;
     const roomId = document.getElementById('room_id').value;
@@ -427,6 +544,12 @@ document.getElementById('bookingForm').addEventListener('submit', function(e) {
     if (checkInDate < today) {
         e.preventDefault();
         alert('Check-in date cannot be in the past.');
+        return false;
+    }
+    
+    // Validate against booked dates
+    if (!validateDates()) {
+        e.preventDefault();
         return false;
     }
     

@@ -6,7 +6,10 @@ A secure, OWASP-compliant hotel booking web application built with PHP, MySQL, a
 
 **Course:** Secure Software Development (IKB 21503)  
 **Institution:** UniKL MIIT  
+**Project Type:** Group Project (Max 4 members)  
+**Assessment Weight:** 20% (100 marks)
 
+---
 
 ## 🎯 Project Objectives
 
@@ -43,7 +46,7 @@ A secure, OWASP-compliant hotel booking web application built with PHP, MySQL, a
 
 ## 🛠️ Technology Stack
 
-- **Backend:** PHP 8.4.14+
+- **Backend:** PHP 8.0+
 - **Database:** MySQL 5.7+ / MariaDB
 - **Frontend:** HTML5, CSS3, JavaScript
 - **Server:** Apache 2.4+
@@ -62,7 +65,7 @@ A secure, OWASP-compliant hotel booking web application built with PHP, MySQL, a
 ### Step 1: Clone/Download Project
 ```bash
 # If using Git
-git clone https://github.com/nikaiman03/Hotel-Booking-SSD-Project.git
+git clone <your-repo-url>
 
 # Or download ZIP and extract to htdocs folder
 ```
@@ -77,7 +80,12 @@ git clone https://github.com/nikaiman03/Hotel-Booking-SSD-Project.git
    - Click "Go"
 
 ### Step 3: Configure Environment
-1. Edit `.env` file with your database credentials:
+1. Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Edit `.env` file with your database credentials:
    ```env
    DB_HOST=localhost
    DB_NAME=hotel_booking
@@ -87,7 +95,7 @@ git clone https://github.com/nikaiman03/Hotel-Booking-SSD-Project.git
    APP_DEBUG=false
    ```
 
-2. Update `config.php` if needed (default settings work for XAMPP)
+3. Update `config.php` if needed (default settings work for XAMPP)
 
 ### Step 4: Set File Permissions
 ```bash
@@ -398,5 +406,4 @@ For issues or questions:
 
 **Last Updated:** January 2026  
 **Version:** 1.0.0  
-
 **Status:** ✅ Completed & Ready for Submission

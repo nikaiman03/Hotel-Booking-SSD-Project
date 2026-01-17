@@ -107,7 +107,6 @@ if (!headers_sent()) {
  * Uses ARGON2ID (PHP 7.3+), falls back to BCRYPT for compatibility
  */
 function secure_password_hash($password) {
-    // Use ARGON2ID (available in PHP 7.3+)
     if (defined('PASSWORD_ARGON2ID')) {
         $options = [
             'memory_cost' => 65536,  // 64 MB - good balance between security and performance
@@ -116,7 +115,7 @@ function secure_password_hash($password) {
         ];
         return password_hash($password, PASSWORD_ARGON2ID, $options);
     }
-    // Fallback to BCRYPT if ARGON2ID not available
+    // Fallback to BCRYPT if ARGON2ID not available or problem
     else {
         return password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
     }
@@ -129,6 +128,4 @@ function secure_password_hash($password) {
 function verify_password_hash($password, $hash) {
     return password_verify($password, $hash);
 }
-?>
-
 ?>

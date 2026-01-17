@@ -2,7 +2,7 @@
 // ==================== SECURE SESSION MANAGEMENT ====================
 // Make sure config is loaded first for constants
 if (!defined('SESSION_TIMEOUT')) {
-    define('SESSION_TIMEOUT', 1800);
+    define('SESSION_TIMEOUT', 1800); //session will destroy after 30 min
 }
 if (!defined('CSRF_TOKEN_LIFETIME')) {
     define('CSRF_TOKEN_LIFETIME', 3600);
@@ -27,7 +27,7 @@ function startSecureSession() {
         'domain' => $_SERVER['HTTP_HOST'],
         'secure' => $isSecure,
         'httponly' => true,
-        'samesite' => 'Lax' // Changed from Strict for compatibility
+        'samesite' => 'Lax' 
     ]);
     
     // Set session ini settings
@@ -92,6 +92,16 @@ function startSecureSession() {
     
     // Update last activity time
     $_SESSION['LAST_ACTIVITY'] = time();
+
+    function generate_csrf_token() {
+    if (empty($_SESSION['csrf_token']) || 
+        empty($_SESSION['csrf_token_time']) || 
+        (time() - $_SESSION['csrf_token_time']) > CSRF_TOKEN_LIFETIME) {
+        
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        $_SESSION['csrf_token_time'] = time();
+    }
+}
     
     // Generate CSRF token if not exists
     generate_csrf_token();
