@@ -1,0 +1,77 @@
+# Error documents
+ErrorDocument 403 /hotelb/403.php
+ErrorDocument 404 /hotelb/404.php
+ErrorDocument 500 /hotelb/500.php
+
+# Security Headers
+<IfModule mod_headers.c>
+    # X-Frame-Options - Prevent Clickjacking
+    Header always set X-Frame-Options "DENY"
+    
+    # X-Content-Type-Options - Prevent MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # X-XSS-Protection
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Remove X-Powered-By header
+    Header unset X-Powered-By
+    
+    # Strict Content Security Policy (No external resources)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'"
+</IfModule>
+
+# Disable directory browsing
+Options -Indexes
+
+# Protect config files
+<FilesMatch "^\.ht|config\.php$|\.ini$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Prevent access to log files
+<FilesMatch "\.(log|txt)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Enable HSTS if using HTTPS
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" env=HTTPS
+</IfModule>
+
+# Cache control for security-sensitive pages
+<FilesMatch "\.(php|html)$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
+</FilesMatch>
+
+# Prevent access to composer files
+<Files composer.json>
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files composer.lock>
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Prevent access to vendor directory
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Block direct access to vendor directory
+    RewriteRule ^vendor(/.*)?$ - [F,L]
+    
+    # Block access to hidden files and directories
+    RewriteRule ^\. - [F,L]
+    
+    # Block access to backup and source files
+    RewriteRule \.(bak|config|sql|fla|psd|ini|swp|dist)$ - [F,L,NC]
+</IfModule>
